@@ -492,6 +492,48 @@ mock.Setup(x => x.Bar).Verifiable();";
         }
 
         [Test]
+        public void ConvertAssertions_UsesVerifyAll_WhenVerifyAllExpectationsWasUsed()
+        {
+            // Arrange
+            var input =
+@"mock.VerifyAllExpectations();";
+
+            // Act
+            var actual = input.ConvertAssertions();
+
+            // Assert
+            var expected =
+@"mock.Verify();";
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void ConvertArgumentConstraints_UsesItIsSame()
+        {
+            // Arrange
+            var input =
+@"mock
+    .Setup(x => x.Foo(
+        Arg<int>.Is.Same(bar1),
+        Arg<int>.Is.Same(bar2)))
+    .Return(true);";
+
+            // Act
+            var actual = input.ConvertAssertions();
+
+            // Assert
+            var expected =
+@"mock
+    .Setup(x => x.Foo(
+        It.Is<int>(arg => arg == bar1),
+        It.Is<int>(arg => arg == bar2)))
+    .Return(true);";
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
         public void ConvertAssertions_UsesVerify_WhenAssertWasCalledWasUsed()
         {
             // Arrange
@@ -533,23 +575,6 @@ mock.Setup(x => x.Bar).Verifiable();";
     .Verify(x => x.Foo(
         Arg<int>.Is.Equal(1),
         Arg<int>.Is.Equal(2)), Times.Never);";
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void ConvertAssertions_UsesVerifyAll_WhenVerifyAllExpectationsWasUsed()
-        {
-            // Arrange
-            var input =
-@"mock.VerifyAllExpectations();";
-
-            // Act
-            var actual = input.ConvertAssertions();
-
-            // Assert
-            var expected =
-@"mock.Verify();";
 
             Assert.AreEqual(expected, actual);
         }

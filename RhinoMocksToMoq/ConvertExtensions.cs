@@ -100,7 +100,8 @@ namespace RhinoMocksToMoq
             return input
                 .RegexReplace(@"Arg<([^(]+?)>\.Is\.Anything", @"It.IsAny<$1>()")
                 .RegexReplace(@"Arg<([^(]+?)>\.Matches", "It.Is<$1>")
-                .RegexReplace(@"Arg<([^(]+?)>\.Is\.Equal\((.*?)\)", "It.Is<$1>(arg => arg == $2)");
+                .RegexReplace(@"Arg<([^(]+?)>\.Is\.Equal\((.*?)\)", "It.Is<$1>(arg => arg == $2)")
+                .RegexReplace(@"Arg<([^(]+?)>\.Is\.Same\((.*?)\)", "It.Is<$1>(arg => arg == $2)");
         }
 
         public static string ConvertAssertions(this string input)

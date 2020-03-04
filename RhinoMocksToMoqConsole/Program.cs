@@ -8,27 +8,20 @@ namespace RhinoMocksToMoqConsole
     {
         static void Main(string[] args)
         {
-            if (args.Length != 1)
+            if (!(args.Length == 1 || (args.Length == 3 && args[1] == "-out")))
             {
-                Console.WriteLine("Usage: RhinoMocksToMoqConsole <filepath>");
-                return;
+                Console.WriteLine("Usage: RhinoMocksToMoqConsole <filepath> [-out file]");
+                Environment.Exit(1);
             }
 
-            string contents;
+            string sourceCode = File.ReadAllText(args[0]);
 
-            using (var fs = new FileStream(args[0], FileMode.Open))
-            using (var sr = new StreamReader(fs))
-            {
-                contents = sr.ReadToEnd();
-            }
+            var newSourceCode = ClassConverter.Convert(sourceCode);
 
-            var newContents = ClassConverter.Convert(contents);
-
-            using (var fs = new FileStream(args[0], FileMode.Truncate))
-            using (var sw = new StreamWriter(fs))
-            {
-                sw.Write(newContents);
-            }
+            if (args.Length == 1)
+                Console.WriteLine(newSourceCode);
+            else
+                File.WriteAllText(args[2], newSourceCode);
         }
     }
 }
