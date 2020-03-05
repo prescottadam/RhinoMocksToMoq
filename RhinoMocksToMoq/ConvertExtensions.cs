@@ -85,7 +85,8 @@ namespace RhinoMocksToMoq
             return input
                 .RegexReplace(@"\.Stub\((.*?)\)(\s*)\.Return\((.*?)\);", ".Setup($1)$2.Returns($3);")
                 .RegexReplace(@"\.Stub\((.*?)\)(\s*)\.WhenCalled\((.*?)\);", ".Setup($1)$2.Returns($3);")
-                .RegexReplace(@"\.Stub\((.*?)\)(\s*)\.Do\((.*?)\);", ".Setup($1)$2.Returns($3);");
+                .RegexReplace(@"\.Stub\((.*?)\)(\s*)\.Do\((.*?)\);", ".Setup($1)$2.Returns($3);")
+                .RegexReplace(@"\.Stub\((.*?)\)(\s*)\.Throw\((.*?)\);", ".Setup($1)$2.Throws($3);");
         }
 
         public static string ConvertExpects(this string input)

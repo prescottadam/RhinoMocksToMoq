@@ -520,7 +520,7 @@ mock.Setup(x => x.Bar).Verifiable();";
     .Return(true);";
 
             // Act
-            var actual = input.ConvertAssertions();
+            var actual = input.ConvertArgumentConstraints();
 
             // Assert
             var expected =
