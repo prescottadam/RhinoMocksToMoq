@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
 
 namespace RhinoMocksToMoq
@@ -75,7 +74,7 @@ namespace RhinoMocksToMoq
                 var mockVarName = match.Groups["varName"].Value;
                 result =
                     result
-                        .RegexReplace($@"([^vd\s][A-Z][a-zA-Z_0-9.]+)\s+{mockVarName};", $"Mock<$1> {mockVarName};")
+                        .RegexReplace($@"[\s\r\n]([A-Z][a-zA-Z_0-9.]+)\s+{mockVarName};", $"Mock<$1> {mockVarName};")
                         .RegexReplace($@"{mockVarName}((?!\s*\.Setup|\s*\.Verify|\s*\.Object|\s*[=;]))", $"{mockVarName}.Object$1");
             }
 
