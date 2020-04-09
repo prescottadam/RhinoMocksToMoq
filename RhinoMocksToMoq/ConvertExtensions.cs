@@ -75,7 +75,7 @@ namespace RhinoMocksToMoq
                 result =
                     result
                         .RegexReplace($@"[\s\r\n]([A-Z][a-zA-Z_0-9.]+)\s+{mockVarName};", $"Mock<$1> {mockVarName};")
-                        .RegexReplace($@"{mockVarName}((?!\s*\.Setup|\s*\.Verify|\s*\.Object|\s*[=;]))", $"{mockVarName}.Object$1");
+                        .RegexReplace($@"{mockVarName}(?!(\s*\.Setup|\s*\.Verify|\s*\.Object|\s*[=;>>A-Za-z0-9]))", $"{mockVarName}.Object$1");
             }
 
             return result;
